@@ -1,0 +1,16 @@
+.sidebar {
+    border-right: 1px solid #222;
+    height: calc(100vh - 70px);
+    min-width: 200px;
+    padding-left: 10px;
+    padding-right: 10px;
+    padding-top: 20px;
+    flex: 0.20;
+    background-color: #151515;
+
+    overflow-y: overlay;
+}
+
+.sidebar::-webkit-scrollbar {
+    display: none;
+}
