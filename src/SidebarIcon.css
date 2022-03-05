@@ -1,0 +1,10 @@
+.sidebarIcons {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-around;
+}
+
+.sidebar__icon {
+    cursor: pointer;
+}

@@ -1,6 +1,7 @@
 import React from 'react'
 import './Sidebar.css'
-import SidebarOption from './SidebarOption'
+import SidebarText from './SidebarText'
+import SidebarIcon from './SidebarIcon'
 
 import HomeIcon from '@mui/icons-material/Home';
 import SearchIcon from '@mui/icons-material/Search';
@@ -14,16 +15,19 @@ function Sidebar() {
 
   return (
     <div className='sidebar'>
-        <SidebarOption Icon={HomeIcon} title="Home"/>
-        <SidebarOption Icon={SearchIcon} title="Search"/>
-        <SidebarOption Icon={LibraryMusicSharpIcon} title="Library"/>
+        <div className="sidebarIcons">
+          <SidebarIcon Icon={HomeIcon} />
+          <SidebarIcon Icon={SearchIcon} />
+          <SidebarIcon Icon={LibraryMusicSharpIcon} />
+        </div>
+        
 
         <br/>
         <strong className="sidebar_title">PLAYLISTS</strong>
         <hr/>
 
         {playlists?.items?.map(playlist => (
-            <SidebarOption title={playlist.name}/>
+            <SidebarText title={playlist.name} url={playlist.uri}/>
         ))}
         
     </div>

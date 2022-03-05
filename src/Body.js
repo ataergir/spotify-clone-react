@@ -12,6 +12,44 @@ import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
 function Body({spotify}) {
   const [{ discover_weekly }, dispatch] = useDataLayerValue();
 
+  
+  const playSong = (id) => {
+    spotify.play({
+      uris: [`spotify:track:${id}`],
+    })
+    .then(() => {
+      spotify.getMyCurrentPlayingTrack().then((song) => {
+        dispatch({
+          type: 'SET_ITEM',
+          item: song.item
+        });
+        dispatch({
+          type: "SET_PLAYING",
+          playing: true,
+        });
+      })
+    })
+  };
+
+  const playPlaylist = () => {
+    spotify
+      .play({
+        context_uri: `spotify:playlist:37i9dQZEVXcH4W5M97ejnz?gtm=1`,
+      })
+      .then(() => {
+        spotify.getMyCurrentPlayingTrack().then((song) => {
+          dispatch({
+            type: "SET_ITEM",
+            item: song.item,
+          });
+          dispatch({
+            type: "SET_PLAYING",
+            playing: true,
+          });
+        });
+      });
+  };
+
   return (
     <div className='body'>
         <Header spotify={spotify} />
@@ -20,7 +58,6 @@ function Body({spotify}) {
           <img src={discover_weekly?.images[0].url} alt="" />
 
           <div className="body_infoText">
-            <strong>PLAYLIST</strong>
             <h2>Discover weekly</h2>
             <p>{discover_weekly?.description}</p>
           </div>
@@ -28,13 +65,13 @@ function Body({spotify}) {
 
         <div className="body_songs">
           <div className="body_icons">
-            <PlayArrowIcon className='body_shuffle' />
+            <PlayArrowIcon className='body_shuffle' onClick={playPlaylist} />
             <FavoriteIcon fontSize="large"/>
             <MoreHorizIcon />
           </div>
 
           {discover_weekly?.tracks.items.map(item =>(
-            <SongRow track={item.track} />
+            <SongRow playSong={playSong} track={item.track} />
           ))}
         </div>
     </div>

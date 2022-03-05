@@ -1,19 +1,15 @@
-.sidebarOption {
+.sidebarText {
     color: #777;
     height: 40px;
     cursor: pointer;
     transition: 150ms color ease-in;
 
     display: flex;
+    overflow-y: hidden;
 }
 
-.sidebarOption:hover {
+.sidebarText:hover {
     color: white;
-}
-
-.sidebarOption_icon {
-    padding-left: 7px;
-    padding-right: 10px;
 }
 
 .sidebar_title {
@@ -27,7 +23,7 @@
     margin: 10px auto;
 }
 
-.sidebarOption > p {
+.sidebarText > p {
     margin-top: 5px;
     margin-left: 20px;
     font-size: 16px;
