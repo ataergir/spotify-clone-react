@@ -13,21 +13,25 @@ function Body({spotify}) {
   const [{ discover_weekly, actual_playlist, devices }, dispatch] = useDataLayerValue();
 
   //console.log(devices.devices)
+
   const playSong = (id) => {
     spotify.play({
       uris: [`spotify:track:${id}`],
     })
     .then(() => {
-      spotify.getMyCurrentPlayingTrack().then((r) => {
-        dispatch({
-          type: 'SET_ITEM',
-          item: r.item
-        });
-        dispatch({
-          type: "SET_PLAYING",
-          playing: true,
-        });
-      })
+      setTimeout(() => {
+        spotify.getMyCurrentPlayingTrack().then((r) => {
+          dispatch({
+            type: 'SET_ITEM',
+            item: r.item
+          });
+          dispatch({
+            type: "SET_PLAYING",
+            playing: true,
+          });
+        })
+      }, 500)
+      
     })
   };
 
