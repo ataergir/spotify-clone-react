@@ -6,6 +6,8 @@ export const initialState = {
     discover_weekly: null,
     token: null,
     top_artists: null,
+    actual_playlist: null,
+    devices: [],
     //token:"BQBnTi427W8q_mTCyBHBKV9PJ-57XKhlOdUeV6dwa9i0H5l4oMOPX7Kgewgte7UWLp7kILFPIod0Qww2rejkwZf4u0qG_bTLN6qvhel-zWSg2wK-gUEQHvgvvaj3uYdS1v6icueqjX9tudvkFPnYs4Hi5TBuWAQ-U1lbt0dMgboXEM7WqTRg",
 }
 
@@ -46,7 +48,17 @@ const reducer = (state, action) => {
         case 'SET_ITEM':
             return {
                 ...state,
-                item: action.item
+                item: action.item,
+            }
+        case 'SET_ACTUAL_PLAYLIST':
+            return {
+                ...state,
+                actual_playlist: action.actual_playlist,
+            }
+        case 'SET_DEVICES':
+            return {
+                ...state,
+                devices: action.devices,
             }
         default: 
             return state;

@@ -5,7 +5,7 @@
     transition: 150ms color ease-in;
 
     display: flex;
-    overflow-y: hidden;
+    overflow-y: visible;
 }
 
 .sidebarText:hover {

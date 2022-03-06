@@ -10,18 +10,18 @@ import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
 
 
 function Body({spotify}) {
-  const [{ discover_weekly }, dispatch] = useDataLayerValue();
+  const [{ discover_weekly, actual_playlist, devices }, dispatch] = useDataLayerValue();
 
-  
+  //console.log(devices.devices)
   const playSong = (id) => {
     spotify.play({
       uris: [`spotify:track:${id}`],
     })
     .then(() => {
-      spotify.getMyCurrentPlayingTrack().then((song) => {
+      spotify.getMyCurrentPlayingTrack().then((r) => {
         dispatch({
           type: 'SET_ITEM',
-          item: song.item
+          item: r.item
         });
         dispatch({
           type: "SET_PLAYING",
@@ -34,7 +34,7 @@ function Body({spotify}) {
   const playPlaylist = () => {
     spotify
       .play({
-        context_uri: `spotify:playlist:37i9dQZEVXcH4W5M97ejnz?gtm=1`,
+        context_uri: `${actual_playlist.uri}`,
       })
       .then(() => {
         spotify.getMyCurrentPlayingTrack().then((song) => {
@@ -50,30 +50,58 @@ function Body({spotify}) {
       });
   };
 
+  //////////////////////////////
+
   return (
     <div className='body'>
         <Header spotify={spotify} />
 
+
+        {actual_playlist ? 
+        <div className="body_info">
+          <img src={actual_playlist?.images[0].url} alt="" />
+          <div className="body_infoText">
+            <h2>{actual_playlist?.name}</h2>
+            <p>{actual_playlist?.description}</p>
+          </div>
+        </div> 
+        :
         <div className="body_info">
           <img src={discover_weekly?.images[0].url} alt="" />
-
           <div className="body_infoText">
-            <h2>Discover weekly</h2>
+            <h2>{discover_weekly?.name}</h2>
             <p>{discover_weekly?.description}</p>
           </div>
         </div>
+        }
 
-        <div className="body_songs">
-          <div className="body_icons">
-            <PlayArrowIcon className='body_shuffle' onClick={playPlaylist} />
-            <FavoriteIcon fontSize="large"/>
-            <MoreHorizIcon />
-          </div>
 
-          {discover_weekly?.tracks.items.map(item =>(
-            <SongRow playSong={playSong} track={item.track} />
-          ))}
+        
+      {actual_playlist ? 
+      <div className="body_songs">
+        <div className="body_icons">
+          <PlayArrowIcon className='body_shuffle' onClick={playPlaylist} />
+          <FavoriteIcon fontSize="large"/>
+          <MoreHorizIcon />
         </div>
+        {actual_playlist?.tracks?.items?.map(item =>(
+          <SongRow playSong={playSong} track={item.track} />
+        ))}
+      </div>
+      :
+      <div className="body_songs">
+        <div className="body_icons">
+          <PlayArrowIcon className='body_shuffle' onClick={playPlaylist} />
+          <FavoriteIcon fontSize="large"/>
+          <MoreHorizIcon />
+        </div>
+        {discover_weekly?.tracks?.items?.map(item =>(
+          <SongRow playSong={playSong} track={item.track} />
+        ))}
+      </div>
+      }
+        
+
     </div>
   )
 }

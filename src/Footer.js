@@ -16,13 +16,10 @@ import { Grid, Slider } from "@material-ui/core";
 
 function Footer({ spotify }) {
 
-    const [{ token, item, playing }, dispatch] = useDataLayerValue();
-    console.log("item before", item);
+    const [{ item, playing }, dispatch] = useDataLayerValue();
 
     useEffect(() => {
         spotify.getMyCurrentPlaybackState().then((r) => {
-            console.log("useeffect ", r);
-
             dispatch({
             type: "SET_PLAYING",
             playing: r.is_playing,
@@ -53,36 +50,53 @@ function Footer({ spotify }) {
 
     const skipNext = () => {
     spotify.skipToNext();
-    spotify.getMyCurrentPlayingTrack().then((r) => {
-        dispatch({
-        type: "SET_ITEM",
-        item: r.item,
+
+        //Timeout to avoid missing item change
+    setTimeout(() => {
+        spotify.getMyCurrentPlayingTrack().then((r) => {
+            dispatch({
+            type: "SET_ITEM",
+            item: r.item,
+            });
+            dispatch({
+            type: "SET_PLAYING",
+            playing: true,
+            });
         });
-        dispatch({
-        type: "SET_PLAYING",
-        playing: true,
-        });
-    });
+    }, 500)
+    
+
     };
 
     const skipPrevious = () => {
     spotify.skipToPrevious();
-    spotify.getMyCurrentPlayingTrack().then((r) => {
-        dispatch({
-        type: "SET_ITEM",
-        item: r.item,
+
+        //Timeout to avoid missing item change
+    setTimeout(()=> {
+
+        spotify.getMyCurrentPlayingTrack().then((r) => {
+            dispatch({
+            type: "SET_ITEM",
+            item: r.item,
+            });
+            dispatch({
+            type: "SET_PLAYING",
+            playing: true,
+            });
         });
-        dispatch({
-        type: "SET_PLAYING",
-        playing: true,
-        });
-    });
+
+    }, 500)
+    
+
+
+
+
     };
 
   return (
     <div className='footer'>
         <div className="footer_left">
-            <img src={item?.album.images[0].url} className='footer_albumLogo' alt="" />
+            <img src={item?.album.images[0].url}className='footer_albumLogo' alt="" />
 
             {item ? (
             <div className="footer_song">
@@ -99,7 +113,9 @@ function Footer({ spotify }) {
         </div>
 
         <div className="footer_center">
+            {/* 
             <ShuffleIcon className='footer_icon'/>
+            */}
             <SkipPreviousIcon className='footer_icon' onClick={skipPrevious}/>
 
             {playing ? (
@@ -117,7 +133,9 @@ function Footer({ spotify }) {
             )}
 
             <SkipNextIcon className='footer_icon' onClick={skipNext}/>
+            {/* 
             <RepeatIcon className='footer_icon'/>
+            */}
         </div>
 
         

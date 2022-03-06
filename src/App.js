@@ -10,11 +10,8 @@ const spotify = new SpotifyWebApi();
 
 function App() {
   // const [token, setToken] = useState(null);
-
-  //get user from the data layer
   const [{ user, token }, dispatch] = useDataLayerValue();
 
-  //run code based on a given condition (only when App renders => [] (no condition) )
   useEffect(() => {
     const hash = getTokenFromUrl();
     //hide token in url bar
@@ -28,7 +25,6 @@ function App() {
         type: "SET_TOKEN",
         token: _token,
       })
-      // == setToken(_token);
 
       spotify.setAccessToken(_token);
 
@@ -46,6 +42,7 @@ function App() {
         })
       })
 
+      //PERSONAL DISCOVER WEEKLY
       spotify.getPlaylist("37i9dQZEVXcH4W5M97ejnz?gtm=1").then(response => {
         dispatch({
           type: "SET_DISCOVER_WEEKLY",
@@ -53,10 +50,19 @@ function App() {
         })
       })
 
-      spotify.getMyTopArtists().then((response) => {
+      //TODO
+      spotify.getMyTopArtists().then((res) => {
         dispatch({
           type: "SET_TOP_ARTISTS",
-          top_artists: response,
+          top_artists: res,
+        })
+      })
+
+      //TODO
+      spotify.getMyDevices().then((res) => {
+        dispatch({
+          type: "SET_DEVICES",
+          devices : res
         })
       })
       

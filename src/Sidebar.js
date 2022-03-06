@@ -27,7 +27,7 @@ function Sidebar() {
         <hr/>
 
         {playlists?.items?.map(playlist => (
-            <SidebarText title={playlist.name} url={playlist.uri}/>
+            <SidebarText title={playlist.name} playlist={playlist}/>
         ))}
         
     </div>
