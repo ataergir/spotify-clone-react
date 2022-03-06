@@ -12,7 +12,7 @@ import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
 function Body({spotify}) {
   const [{ discover_weekly, actual_playlist, devices }, dispatch] = useDataLayerValue();
 
-  //console.log(devices.devices)
+  console.log("devices", devices.devices)
 
   const playSong = (id) => {
     spotify.play({

@@ -2,21 +2,12 @@ import React from 'react'
 import "./SidebarText.css"
 import  { useDataLayerValue } from './DataLayer'
 
-
-////////////////////////test
-import SpotifyWebApi from "spotify-web-api-js";
-
-
-//////////////// est-il possible d'importer depuis App.js au lieu de recréer ???
-const spotify = new SpotifyWebApi();
-
-function SidebarText({ title, playlist }) {
+function SidebarText({ title, playlist, spotify }) {
 
   const [{ actual_playlist }, dispatch] = useDataLayerValue();
 
   const openPlaylist = (playlist) => {
 
-    ////////////test
     spotify.getPlaylist(playlist.id).then(response => {
       dispatch({
         type: "SET_ACTUAL_PLAYLIST",

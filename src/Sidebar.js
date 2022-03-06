@@ -9,7 +9,7 @@ import LibraryMusicSharpIcon from '@mui/icons-material/LibraryMusicSharp';
 
 import { useDataLayerValue } from './DataLayer';
 
-function Sidebar() {
+function Sidebar({spotify}) {
     //only gets playlists from the datalayer
     const [{ playlists }, dispatch] = useDataLayerValue();
 
@@ -27,7 +27,7 @@ function Sidebar() {
         <hr/>
 
         {playlists?.items?.map(playlist => (
-            <SidebarText title={playlist.name} playlist={playlist}/>
+            <SidebarText title={playlist.name} playlist={playlist} spotify={spotify}/>
         ))}
         
     </div>
