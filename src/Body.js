@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import './Body.css'
 import Header from './Header'
 import { useDataLayerValue } from './DataLayer'
@@ -10,10 +10,10 @@ import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
 
 
 function Body({spotify}) {
-  const [{ discover_weekly, actual_playlist, devices }, dispatch] = useDataLayerValue();
+  console.log("BODY RELOAD")
+  const [{ discover_weekly, actual_playlist, devices, user}, dispatch] = useDataLayerValue();
 
-  console.log("devices", devices.devices)
-
+   //console.log("devices", devices.devices)
   const playSong = (id) => {
     spotify.play({
       uris: [`spotify:track:${id}`],
@@ -30,8 +30,7 @@ function Body({spotify}) {
             playing: true,
           });
         })
-      }, 500)
-      
+      }, 300)
     })
   };
 
@@ -40,25 +39,61 @@ function Body({spotify}) {
       .play({
         context_uri: `${actual_playlist.uri}`,
       })
-      .then(() => {
+      
+      setTimeout(() => {
         spotify.getMyCurrentPlayingTrack().then((song) => {
           dispatch({
             type: "SET_ITEM",
             item: song.item,
-          });
+          })
           dispatch({
             type: "SET_PLAYING",
             playing: true,
-          });
-        });
-      });
+          })
+        })
+      }, 300)
+      
   };
+
+
+  //TODO
+  {/* 
+  
+  const checkIfFollowing = () => {
+    console.log(user.id)
+    spotify.
+      areFollowingPlaylist(
+        actual_playlist.uri.replace("spotify:playlist:", ""),
+        user.id
+      )
+  }
+  
+  if (actual_playlist){
+    checkIfFollowing()
+  }
+
+  */}
+
+  const followPlaylist = () => {
+    if(true){
+      spotify.
+      followPlaylist(
+        actual_playlist.uri.replace("spotify:playlist:", "")
+      )
+    } else {
+      spotify.
+      unfollowFollowPlaylist(
+        actual_playlist.uri.replace("spotify:playlist:", "")
+      )
+    }
+    
+  }
 
   //////////////////////////////
 
   return (
     <div className='body'>
-        <Header spotify={spotify} />
+        {/*<Header spotify={spotify} />*/}
 
 
         {actual_playlist ? 
@@ -85,8 +120,10 @@ function Body({spotify}) {
       <div className="body_songs">
         <div className="body_icons">
           <PlayArrowIcon className='body_shuffle' onClick={playPlaylist} />
-          <FavoriteIcon fontSize="large"/>
-          <MoreHorizIcon />
+         
+          {/* V TODO V */}
+          <FavoriteIcon fontSize="large" onClick={followPlaylist}/>
+          <MoreHorizIcon /> 
         </div>
         {actual_playlist?.tracks?.items?.map(item =>(
           <SongRow playSong={playSong} track={item.track} />
@@ -104,10 +141,9 @@ function Body({spotify}) {
         ))}
       </div>
       }
-        
-
     </div>
   )
 }
+
 
 export default Body

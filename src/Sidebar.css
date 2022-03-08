@@ -1,5 +1,5 @@
 .sidebar {
-    height: calc(100vh - 70px);
+    height: calc(100vh - 110px);
     min-width: 200px;
     padding-left: 10px;
     padding-right: 10px;
@@ -8,6 +8,10 @@
     background-color: #121212;
 
     overflow: overlay;
+}
+
+.sidebar > * {
+    animation: 2s ease-out 0s 1 slideInFromBottom;
 }
 
 .sidebar::-webkit-scrollbar {

@@ -13,11 +13,61 @@ function App() {
   const [{ user, token }, dispatch] = useDataLayerValue();
 
   useEffect(() => {
+      updateApiFast();
+      updateApiSlow();
+  }, [])
+
+  const updateApiFast = () => {
+    console.log('api fast update')
+    spotify.getMyCurrentPlayingTrack().then((r) => {
+      dispatch({
+        type: 'SET_ITEM',
+        item: r.item
+      })
+    })
+    spotify.getMyCurrentPlaybackState().then((r) => {
+      dispatch({
+      type: "SET_PLAYING",
+      playing: r.is_playing,
+      })
+      
+      let progressPercent = Math.round(100 - ((r.item.duration_ms - r.progress_ms) / r.item.duration_ms * 10000) / 100)
+      
+      dispatch({
+        type: "SET_PLAYING_PERCENTAGE",
+        playing_percentage: progressPercent
+      })
+      
+  })
+    
+    setTimeout(() => {
+      updateApiFast();
+    }, 500)
+      //CHANGE TIMEOUT WHEN FINISHED
+  }
+
+  const updateApiSlow = () => {
+    console.log('api slow update')
+    spotify.getUserPlaylists().then((playlists) => {
+    dispatch({
+      type: "SET_PLAYLISTS",
+      playlists: playlists,
+    })
+    })
+    
+    setTimeout(() => {
+      updateApiSlow();
+    }, 50000)
+      //CHANGE TIMEOUT WHEN FINISHED
+  }
+
+  useEffect(() => {
     const hash = getTokenFromUrl();
     //hide token in url bar
     window.location.hash = "";
-
     const _token = hash.access_token;
+
+    
 
     if (_token) {
 

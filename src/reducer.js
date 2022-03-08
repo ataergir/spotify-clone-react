@@ -8,6 +8,10 @@ export const initialState = {
     top_artists: null,
     actual_playlist: null,
     devices: [],
+    background: false,
+    shuffle: false,
+    repeat: "off",
+    playing_percentage: 0,
     //token:"BQBnTi427W8q_mTCyBHBKV9PJ-57XKhlOdUeV6dwa9i0H5l4oMOPX7Kgewgte7UWLp7kILFPIod0Qww2rejkwZf4u0qG_bTLN6qvhel-zWSg2wK-gUEQHvgvvaj3uYdS1v6icueqjX9tudvkFPnYs4Hi5TBuWAQ-U1lbt0dMgboXEM7WqTRg",
 }
 
@@ -59,6 +63,26 @@ const reducer = (state, action) => {
             return {
                 ...state,
                 devices: action.devices,
+            }
+        case 'SET_ACTUAL_BACKGROUND':
+            return {
+                ...state,
+                background : action.background
+            }
+        case 'SET_SHUFFLE':
+            return {
+                ...state,
+                shuffle: action.shuffle
+            }
+        case 'SET_REPEAT':
+            return {
+                ...state,
+                repeat: action.repeat
+            }
+        case 'SET_PLAYING_PERCENTAGE':
+            return {
+                ...state,
+                playing_percentage: action.playing_percentage
             }
         default: 
             return state;

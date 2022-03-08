@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import './Sidebar.css'
 import SidebarText from './SidebarText'
 import SidebarIcon from './SidebarIcon'
@@ -12,7 +12,7 @@ import { useDataLayerValue } from './DataLayer';
 function Sidebar({spotify}) {
     //only gets playlists from the datalayer
     const [{ playlists }, dispatch] = useDataLayerValue();
-
+    
   return (
     <div className='sidebar'>
         <div className="sidebarIcons">
@@ -23,7 +23,7 @@ function Sidebar({spotify}) {
         
 
         <br/>
-        <strong className="sidebar_title">PLAYLISTS</strong>
+        <h4 className="sidebar_title">PLAYLISTS</h4>
         <hr/>
 
         {playlists?.items?.map(playlist => (

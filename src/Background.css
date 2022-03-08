@@ -1,0 +1,34 @@
+.background_container {
+    background-color: #151515;
+    height: calc(100vh - 90px);
+    width: 100vw;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    cursor: pointer;
+    
+    padding-top: 35px;
+
+}
+.background_container > *{
+    animation: 1s ease-in 0s 1 slideInFromBottom;
+}
+
+.background_img {
+    height: 60vh;
+    width: 60vh;
+}
+
+.background_name {
+    margin-top: 3rem;
+    font-weight: 600;
+    text-align: center;
+}
+
+.background_artists {
+    margin-top: 1vh;
+    font-weight: 500;
+    color: #555;
+}
